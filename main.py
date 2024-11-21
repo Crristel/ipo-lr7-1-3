@@ -1,7 +1,6 @@
 import json 
 with open("fish.json","r", encoding="utf-8") as file:
     read_file = json.load(file)
-minimal=0
 user_number=0
 count=0
 id=0
