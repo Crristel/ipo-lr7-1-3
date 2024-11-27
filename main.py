@@ -78,7 +78,13 @@ while(True): #цикл для повторения меню и других оп
                 user_is_saltFish=True
             else:
                 user_is_saltFish=False
-            user_sub=input("Введите количество подвидов рыб")
+            while True: #цикл для проверки введено ли число в пременную user_sub
+                user_sub = int(input("Введите количество подвидов рыб: "))
+                if user_sub.isdigit():
+                    user_sub = int(user_sub)
+                    break
+                else:
+                    print("Это должно быть число!")
 
 
 #создаём из полученных данных множество 
