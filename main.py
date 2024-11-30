@@ -79,7 +79,7 @@ while(True): #цикл для повторения меню и других оп
             else:
                 user_is_saltFish=False
             while True: #цикл для проверки введено ли число в пременную user_sub
-                user_sub = int(input("Введите количество подвидов рыб: "))
+                user_sub = input("Введите количество подвидов рыб: ")
                 if user_sub.isdigit():
                     user_sub = int(user_sub)
                     break
