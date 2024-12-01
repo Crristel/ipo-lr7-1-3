@@ -68,9 +68,22 @@ while(True): #цикл для повторения меню и других оп
             print()
  #если введённое с клавиатуры число равно 3, то выполняем третий пункт       
     elif user_number==3:
-            for i in read_file:
-                if i['id']:
-                    id+=1
+        find=False
+        while True:
+            id=input("Введите номер рыбы:")
+            if id.isdigit():
+                id = int(id)
+                break
+            else:
+                print("Это должно быть число!")
+
+        for i in read_file:
+            if i.get("id") == id:
+                find = True
+                break
+        if find:
+            print("Такой номер уже существует.")
+        else:
             user_name=input("Введите название рыбы:")
             user_Lname=input("Введите латинское название рыбы:")
             user_is_saltFish=input("Введите является ли рыба пресноводной:")
@@ -88,7 +101,7 @@ while(True): #цикл для повторения меню и других оп
 
 
 #создаём из полученных данных множество 
-            new_fish={"id": id+1, "name":user_name, 
+            new_fish={"id": id, "name":user_name, 
                "latin_name": user_Lname,
                "is_salt_water_fish":user_is_saltFish,
                "sub_type_count":user_sub
@@ -99,6 +112,7 @@ while(True): #цикл для повторения меню и других оп
                 json.dump(read_file, out_file,ensure_ascii=False,indent=2)
                 print("Рыба успешно добавлена!")
                 count+=1
+
      #если введённое с клавиатуры число равно 4, то выполняем четвёртый пункт       
     elif user_number == 4:
         user_remove = int(input("Введите номер для удаления: "))
