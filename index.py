@@ -1,28 +1,28 @@
 import json
-operation_count=0
 def num1(read_file):
-    global operation_count
-    operation_count+= 1
     for i in read_file:
-        for key, value in i.items():
-            if key == 'id':
-                print(f"Номер записи: {value}".center(36, "~"))
-            elif key == 'name':
-                print(f"Название рыбы: {value}")
-            elif key == 'latin_name':
-                print(f"Латинское название рыбы: {value}")
-            elif key == 'is_salt_water_fish':
-                if value:
-                    value = "да"
-                else:
-                    value = "нет"
-                print(f"Является ли рыба пресноводной: {value}")
-            elif key == 'sub_type_count':
-                print(f"Количество подвидов рыб: {value}")
-        print()  
-
+            for key, value in i.items():
+                if key =='id':
+                    print(f"Номер записи:{value}".center(36,"~"))
+                elif key=='name':
+                    print(f"Название рыбы:{value}")
+               
+                elif key=='latin_name':
+                    print(f"Латинское название рыбы:{value}")
+                elif key=='is_salt_water_fish':
+                    # если value равно true, то присваиваем ему значение "да"
+                    if value==True: 
+                        value="да"
+                    else:
+                        value="нет"
+                    print(f"Является ли рыба пресноводной:{value}")
+                elif key=='sub_type_count':
+                    print(f"Количество подвидов рыб:{value}")
+                    print()
+    return 1
+   
 def num2(read_file):
-    global operation_count
+
     user_id=int(input("Введите поле записи,которую необходимо вывести:"))
     find=False
     for i in read_file:
@@ -45,31 +45,22 @@ def num2(read_file):
                     print(f"Количество подвидов рыб:{value}")
                     print()
                     find=True 
-                    operation_count+= 1
-            break
+                    return 1
     if not find:
         print()
         print("Запись не найдена!")
         print()
+    return 0
         
 def num3(read_file):
-        global operation_count
-        find=False
-        while True:
-            id=input("Введите номер рыбы:")
-            if id.isdigit():
-                id = int(id)
-                break
+            with open("fish.json", "r", encoding="utf-8") as file:
+                read_file = json.load(file)
+            id=0
+            if read_file:
+                id = max(item.get('id', 0) for item in read_file) + 1 
             else:
-                print("Это должно быть число!")
-
-        for i in read_file:
-            if i.get("id",0) == id:
-                find = True
-                break
-        if find:
-            print("Такой номер уже существует.")
-        else:
+                id=1
+            
             user_name=input("Введите название рыбы:")
             user_Lname=input("Введите латинское название рыбы:")
             user_is_saltFish=input("Введите является ли рыба пресноводной:")
@@ -84,6 +75,7 @@ def num3(read_file):
                     break
                 else:
                     print("Это должно быть число!")
+                    return 0
 
 #создаём из полученных данных множество 
             new_fish={"id": id, "name":user_name, 
@@ -96,10 +88,9 @@ def num3(read_file):
             with open("fish.json", 'w', encoding='utf-8') as out_file:
                 json.dump(read_file, out_file,ensure_ascii=False,indent=2)
                 print("Рыба успешно добавлена!")
-                operation_count+= 1
+                return 1
             
 def num4(read_file):
-    global operation_count
     user_remove = int(input("Введите номер для удаления: "))
     find=False
     for i in read_file:
@@ -109,18 +100,17 @@ def num4(read_file):
                 json.dump(read_file, new_file, ensure_ascii = False, indent=4)
                 find=True
                 print("Рыба успешно удалена!")
-                operation_count+= 1
-                break
+                return 1
     if not find:
         print()
         print("Запись не найдена!")
         print()
+    return 0
 
 def main():
-    global operation_count
+    operation_count = 0
     with open("fish.json", "r", encoding="utf-8") as file:
         read_file = json.load(file)
-
     while True:
         while True:
             print("Меню".center(24,"~"))
@@ -133,20 +123,20 @@ def main():
                 print("Это должно быть число!")
     
         if user_number == 1:
-            num1(read_file)
+            operation_count+=num1(read_file)
             
         elif user_number==2:
-            num2(read_file)
+            operation_count+=num2(read_file)
 
         elif user_number==3:
-            num3(read_file)
+            operation_count+=num3(read_file)
 
         elif user_number==4:
-            num4(read_file)
+            operation_count+=num4(read_file)
 
         elif user_number == 5:
             print(f"Количество выполненных операций:",operation_count)
-            break  
+            exit()
         else:
             print("ERROR! please try again!")
 main()
